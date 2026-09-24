@@ -30,10 +30,15 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     sh '''
-                        echo "Downloading Node.js 20..."
-                        curl -O https://nodejs.org/dist/v20.10.0/node-v20.10.0-linux-arm64.tar.gz
-                        tar -xzf node-v20.10.0-linux-arm64.tar.gz
-                        export PATH=$PWD/node-v20.10.0-linux-arm64/bin:$PATH
+                        echo "Installing NVM and fetching the latest Node LTS..."
+                        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+                        export NVM_DIR="$HOME/.nvm"
+                        [ -s "$NVM_DIR/nvm.sh" ] && \\. "$NVM_DIR/nvm.sh"
+                        nvm install --lts
+                        nvm use --lts
+                        
+                        NODE_EXECUTABLE=$(which node)
+                        echo "Using Node.js executable at: $NODE_EXECUTABLE"
                         
                         echo "Downloading SonarScanner CLI..."
                         curl -sS https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006.zip -o sonar-scanner.zip
@@ -44,7 +49,7 @@ pipeline {
                         sonar-scanner \
                           -Dsonar.host.url=https://sonarcloud.io \
                           -Dsonar.login=$SONAR_TOKEN \
-                          -Dsonar.nodejs.executable=$PWD/node-v20.10.0-linux-arm64/bin/node
+                          -Dsonar.nodejs.executable=$NODE_EXECUTABLE
                     '''
                 }
             }
