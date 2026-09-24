@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                sh 'npm test || true' 
+                sh 'npm test || true'
             }
         }
         stage('Generate Coverage Report') {
@@ -32,7 +32,7 @@ pipeline {
                     sh '''
                         echo "Downloading SonarScanner CLI..."
                         curl -sS https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip -o sonar-scanner.zip
-                        unzip -q sonar-scanner.zip
+                        unzip -o -q sonar-scanner.zip
                         export PATH=$PWD/sonar-scanner-5.0.1.3006-linux/bin:$PATH
                         
                         echo "Running SonarScanner..."
