@@ -30,6 +30,11 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     sh '''
+                        echo "Downloading Node.js 20 (LTS)..."
+                        curl -O https://nodejs.org/dist/v20.17.0/node-v20.17.0-linux-arm64.tar.gz
+                        tar -xzf node-v20.17.0-linux-arm64.tar.gz
+                        export PATH=$PWD/node-v20.17.0-linux-arm64/bin:$PATH
+                        
                         echo "Downloading SonarScanner CLI..."
                         curl -sS https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006.zip -o sonar-scanner.zip
                         unzip -o -q sonar-scanner.zip
