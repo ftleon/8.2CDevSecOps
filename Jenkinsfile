@@ -31,9 +31,9 @@ pipeline {
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     sh '''
                         echo "Downloading SonarScanner CLI..."
-                        curl -sS https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip -o sonar-scanner.zip
+                        curl -sS https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006.zip -o sonar-scanner.zip
                         unzip -o -q sonar-scanner.zip
-                        export PATH=$PWD/sonar-scanner-5.0.1.3006-linux/bin:$PATH
+                        export PATH=$PWD/sonar-scanner-5.0.1.3006/bin:$PATH
                         
                         echo "Running SonarScanner..."
                         sonar-scanner \
